@@ -11,4 +11,13 @@ package PingPong;
 
 public class PingPong {
 
+    //constructor
+    public PingPong() {   
+        
+    }
+    //updates the position of the ping pong based on user activity
+    private void update(){
+        
+        }
+   
 }
