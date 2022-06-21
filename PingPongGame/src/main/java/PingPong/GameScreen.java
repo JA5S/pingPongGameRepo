@@ -64,6 +64,12 @@ public class GameScreen extends JPanel{
         g2.translate(0, 0);
         drawPingPong(g2);
         g2.setTransform(savedTransform);
+        
+        // Draw Scores
+        g2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+        g2.drawString("0", -40, 95); //Score 1
+        g2.drawString("0", 40, 95); //Score 2
+        
     }//end method
     
     // Draws dotted line
