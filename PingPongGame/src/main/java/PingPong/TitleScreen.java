@@ -17,6 +17,7 @@ public class TitleScreen extends JPanel{
     
     private final JLabel title = new JLabel("Ping Pong");
     private final JButton startBtn = new JButton("Start Game");
+    private final JButton setNumbPlayerBtn = new JButton("Set Number of Players");
     private final JButton exitBtn = new JButton("Exit Game");
     private final Main main;
     
@@ -25,8 +26,10 @@ public class TitleScreen extends JPanel{
         this.main = main;
         title.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         this.add(title);
-        
+            
         this.add(startBtn);
+        
+        this.add(setNumbPlayerBtn);  
         startBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e)
