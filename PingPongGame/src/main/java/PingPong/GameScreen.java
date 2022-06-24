@@ -16,7 +16,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
-public class GameScreen extends JPanel implements KeyListener{
+public class GameScreen extends JPanel implements KeyListener, ActionListener{
     
     // Fields
     private final double LEFT = -100;
@@ -28,16 +28,16 @@ public class GameScreen extends JPanel implements KeyListener{
     static int translateY = 0;
     
     static int paddleY = -20;
+    static int pongX = 0;
+    static int pongY = 0;
     
-    private Main main;
+    private final Main main;
     
     // Constructor
     public GameScreen(Main main)
     {
         this.main = main;
-        addKeyListener(this);
-        setFocusable(true);
-        requestFocusInWindow();
+        enableKeys();
     }
     
     // Draws graphics for GameScreen class
@@ -77,7 +77,7 @@ public class GameScreen extends JPanel implements KeyListener{
         g2.setTransform(savedTransform);
         
         // Draw PingPong ball
-        g2.translate(0, 0);
+        g2.translate(pongX, pongY);
         drawPingPong(g2);
         g2.setTransform(savedTransform);
         
@@ -121,8 +121,60 @@ public class GameScreen extends JPanel implements KeyListener{
         g2.scale(width / (RIGHT - LEFT), height / (BOTTOM - TOP));
         g2.translate(-LEFT, -TOP);
     }
+    
+    // --------------------------- animation support ---------------------------
+    /* You can call startAnimation() to run an animation.  A frame will be drawn every
+     * 30 milliseconds. Call pauseAnimation() to stop animating.
+     */
+    private Timer animationTimer;
+    private int frameNumber = 0;  // The current frame number for an animation.
+    private boolean animating;  // True if animation is running.  Do not set directly.
+                                // This is set by startAnimation() and pauseAnimation().
+    
+    public void startAnimation() {
+        if ( ! animating ) {
+            if (animationTimer == null) {
+                animationTimer = new Timer(30, this);
+            }
+            animationTimer.start();
+            animating = true;
+            System.out.println("Animation started/resumed!");
+        }
+    }
+    
+    private void pauseAnimation() {
+        if (animating) {
+            animationTimer.stop();
+            animating = false;
+            System.out.println("Animation paused!");
+        }
+    }
+    
+    private void updateFrame() {
+        frameNumber++;
+        
+        //Animations
+        if(frameNumber % 4 == 0)
+        {
+            pongX -= 2;
+        }
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        updateFrame();
+        repaint();
+    }
+    
 
     // ----------------  Methods from the KeyListener interface --------------
+    private void enableKeys()
+    {
+        addKeyListener(this);
+        setFocusable(true);
+        requestFocusInWindow();
+    }
+    
     @Override
     public void keyPressed(KeyEvent evt) {
         int key = evt.getKeyCode();
@@ -131,6 +183,7 @@ public class GameScreen extends JPanel implements KeyListener{
         {
             case KeyEvent.VK_P:
                 System.out.println("Pressed Pause Key!");
+                pauseAnimation();
                 main.switchScreen(ScreenEnum.PAUSE);
                 break;
             case KeyEvent.VK_UP:

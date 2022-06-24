@@ -34,7 +34,7 @@ public class TitleScreen extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                startGame();
+                main.startGame();
             }
         });
     
@@ -48,11 +48,6 @@ public class TitleScreen extends JPanel{
         });
         
         this.add(setNumbPlayerBtn);  
-    }
+    } //end constructor
     
-    private void startGame()
-    {
-        main.switchScreen(ScreenEnum.GAME);
-    }
-    
-}
+} //end class

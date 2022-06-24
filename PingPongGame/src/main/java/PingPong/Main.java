@@ -11,7 +11,6 @@
 
 package PingPong;
 
-import java.awt.*;
 import javax.swing.*;
 
 public class Main{
@@ -43,6 +42,12 @@ public class Main{
     public void display()
     {
         window.setVisible(true);
+    }
+    
+    public void startGame()
+    {
+        switchScreen(ScreenEnum.GAME);
+        gameScreen.startAnimation();
     }
     
     public void switchScreen(ScreenEnum panelEnum)
