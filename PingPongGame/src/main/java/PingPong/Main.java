@@ -11,6 +11,7 @@
 
 package PingPong;
 
+import java.awt.*;
 import javax.swing.*;
 
 public class Main{
