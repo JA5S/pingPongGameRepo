@@ -1,4 +1,13 @@
-
+/**
+ * File: Paddle.java
+ * Group: Project Team 2
+ * Authors: Jonah Shuman,
+ * Zeleke Werssa, and
+ * Asha Azariah-Kribbs
+ * Project: PingPongGame
+ * Date: June 23, 2022
+ * Purpose: Main program
+ */
 
 package PingPong;
 
