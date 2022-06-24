@@ -28,8 +28,6 @@ public class TitleScreen extends JPanel{
         this.add(title);
             
         this.add(startBtn);
-        
-        this.add(setNumbPlayerBtn);  
         startBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e)
@@ -46,6 +44,8 @@ public class TitleScreen extends JPanel{
                 System.exit(0);
             }
         });
+        
+        this.add(setNumbPlayerBtn);  
     }
     
     private void startGame()
