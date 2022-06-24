@@ -11,7 +11,7 @@
 
 package PingPong;
 
-import java.awt.EventQueue;
+import java.awt.*;
 import javax.swing.*;
 
 public class Main{
@@ -75,11 +75,7 @@ public class Main{
 
     //main method
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable(){
-            @Override
-            public void run() {
-                new Main().display();
-            }
-        });
+        Main game = new Main();
+        game.display();
     }
 }
