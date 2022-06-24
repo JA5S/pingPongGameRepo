@@ -15,7 +15,7 @@ public class Main{
     
     //fields
     private final JFrame window;
-    private final GameScreen gameScreen = new GameScreen();
+    private final GameScreen gameScreen = new GameScreen(this);
     private final TitleScreen titleScreen = new TitleScreen(this);
     private final WinScreen winScreen = new WinScreen(this);
     private final PauseScreen pauseScreen = new PauseScreen(this);
@@ -64,6 +64,8 @@ public class Main{
                 break;
         }
         window.setContentPane(panel);
+        panel.setFocusable(true);
+        panel.requestFocusInWindow();
         window.repaint();
         window.revalidate();
     }
