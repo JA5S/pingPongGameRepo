@@ -44,6 +44,12 @@ public class Main{
         window.setVisible(true);
     }
     
+    public void startGame()
+    {
+        switchScreen(ScreenEnum.GAME);
+        gameScreen.startAnimation();
+    }
+    
     public void switchScreen(ScreenEnum panelEnum)
     {
         JPanel panel;
