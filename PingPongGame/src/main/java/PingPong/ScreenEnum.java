@@ -1,10 +1,13 @@
 /**
  * File: ScreenEnum.java
  * Group: Project Team 2
- * Author: Jonah Shuman Student
+ * Authors: Jonah Shuman,
+ * Zeleke Werssa, and
+ * Asha Azariah-Kribbs
  * Project: PingPongGame
  * Date: June 17, 2022
- * Purpose: 
+ * Purpose: Enums for 
+ * selecting screen
  */
 
 package PingPong;
