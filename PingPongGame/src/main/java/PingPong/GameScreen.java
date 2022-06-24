@@ -1,7 +1,9 @@
 /**
  * File: GameScreen.java
  * Group: Project Team 2
- * Author: Jonah Shuman Student
+ * Authors: Jonah Shuman,
+ * Zeleke Werssa, and
+ * Asha Azariah-Kribbs
  * Project: PingPongGame
  * Date: June 16, 2022
  * Purpose: Game Screen panel and draws graphics
