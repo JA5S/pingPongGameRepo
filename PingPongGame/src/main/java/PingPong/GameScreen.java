@@ -10,10 +10,11 @@
 package PingPong;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
-public class GameScreen extends JPanel{
+public class GameScreen extends JPanel implements KeyListener{
     
     // Fields
     private final double LEFT = -100;
@@ -23,6 +24,19 @@ public class GameScreen extends JPanel{
     
     static int translateX = 0;
     static int translateY = 0;
+    
+    static int paddleY = -20;
+    
+    private Main main;
+    
+    // Constructor
+    public GameScreen(Main main)
+    {
+        this.main = main;
+        addKeyListener(this);
+        setFocusable(true);
+        requestFocusInWindow();
+    }
     
     // Draws graphics for GameScreen class
     @Override
@@ -87,7 +101,7 @@ public class GameScreen extends JPanel{
     private void drawPaddle(Graphics2D g2)
     {
         //change x,y to Transform variables
-        g2.fillRect(-10, -20, 20, 40);
+        g2.fillRect(-10, paddleY, 20, 40);
     }
     
     //Draws PingPong
@@ -104,6 +118,40 @@ public class GameScreen extends JPanel{
 
         g2.scale(width / (RIGHT - LEFT), height / (BOTTOM - TOP));
         g2.translate(-LEFT, -TOP);
+    }
+
+    // ----------------  Methods from the KeyListener interface --------------
+    @Override
+    public void keyPressed(KeyEvent evt) {
+        int key = evt.getKeyCode();
+        
+        switch(key)
+        {
+            case KeyEvent.VK_P:
+                System.out.println("Pressed Pause Key!");
+                main.switchScreen(ScreenEnum.PAUSE);
+                break;
+            case KeyEvent.VK_UP:
+                paddleY += 5;
+                System.out.println("Moved Paddle Up!");
+                break;
+            case KeyEvent.VK_DOWN:
+                paddleY -= 5;
+                System.out.println("Moved Paddle Down!");
+                break;
+            default:
+                break;
+        }
+        
+        repaint();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent evt) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent evt) {
     }
     
 }//end class
