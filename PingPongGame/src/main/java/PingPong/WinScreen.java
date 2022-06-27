@@ -12,6 +12,7 @@
 package PingPong;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class WinScreen extends JPanel{
@@ -28,5 +29,30 @@ public class WinScreen extends JPanel{
         this.add(winStatus);
         this.add(restartGame);
         this.add(returnToTitle);
+        
+        restartGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                restartGame();
+            }
+        });
+        returnToTitle.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                returnToTitle();
+            }
+        });
+       
+    }
+     private void restartGame()
+    {
+        main.switchScreen(ScreenEnum.GAME);
+    }
+     
+     private void returnToTitle()
+    {
+        main.switchScreen(ScreenEnum.TITLE);
     }
 }
