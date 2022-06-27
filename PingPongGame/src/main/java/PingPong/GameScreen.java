@@ -27,9 +27,17 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
     static int translateX = 0;
     static int translateY = 0;
     
+    static int paddleX = -10;
     static int paddleY = -20;
     static int pongX = 0;
     static int pongY = 0;
+    private int pongXSpd = 2;
+    private int pongYSpd = 0;
+    private int pongXDir = 1;
+    private int pongYDir = 1;
+    
+    private int scoreOne;
+    private int scoreTwo;
     
     private final Main main;
     
@@ -82,9 +90,12 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
         g2.setTransform(savedTransform);
         
         // Draw Scores
+        g2.translate(0, 85);
+        g2.scale(-1, 1);
+        g2.rotate(180*Math.PI/ -180);
         g2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        g2.drawString("0", -40, 95); //Score 1
-        g2.drawString("0", 40, 95); //Score 2
+        g2.drawString(String.valueOf(scoreOne), -40, 0); //Score 1
+        g2.drawString(String.valueOf(scoreTwo), 40, 0); //Score 2
         
     }//end method
     
@@ -103,14 +114,14 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
     private void drawPaddle(Graphics2D g2)
     {
         //change x,y to Transform variables
-        g2.fillRect(-10, paddleY, 20, 40);
+        g2.fillRect(paddleX, paddleY, 20, 40);
     }
     
     //Draws PingPong
     private void drawPingPong(Graphics2D g2)
     {
         //change x,y to Transform variables
-        g2.fillOval(0, 0, 15, 15);
+        g2.fillOval(0, 0, 10, 15);
     }
     
     // Transforms window's dimensions to viewport
@@ -154,9 +165,36 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
         frameNumber++;
         
         //Animations
-        if(frameNumber % 4 == 0)
+        if(frameNumber % 2 == 0)
         {
-            pongX -= 2;
+            //bounce off top/bottom
+            if(pongY >= TOP || pongY < BOTTOM)
+            {
+                pongYDir *= -1;
+            }
+            
+            //bounce off paddle
+            if(pongX >= paddleX -75 && pongX <= paddleX + 20 -75 && pongY >= paddleY && pongY <= paddleY + 40)
+            {
+                pongXDir *= -1;
+            }
+            
+            //scoring
+            if(pongX >= RIGHT - 5 || pongX <= LEFT)
+            {
+                if(pongX >= RIGHT - 5)
+                    scoreOne++;
+                if(pongX <= LEFT + 5)
+                    scoreTwo++;
+                //respawn pong
+                pongX = 0;
+                pongY = 0;
+                pongXDir *= -1;
+            }
+            
+            //animate pong
+            pongX -= pongXSpd * pongXDir;
+            pongY -= pongYSpd * pongYDir;
         }
     }
     

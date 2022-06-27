@@ -21,8 +21,8 @@ public class Main{
     private final TitleScreen titleScreen = new TitleScreen(this);
     private final WinScreen winScreen = new WinScreen(this);
     private final PauseScreen pauseScreen = new PauseScreen(this);
-    private final int WIDTH = 300;
-    private final int HEIGHT = 200;
+    private final int WIDTH = 500;
+    private final int HEIGHT = 370;
     
     //constructor
     Main()
