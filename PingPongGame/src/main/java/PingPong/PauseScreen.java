@@ -50,7 +50,7 @@ public class PauseScreen extends JPanel{
     
     private void resumeGame()
     {
-        main.switchScreen(ScreenEnum.GAME);
+        main.startGame();
     }
     
     private void returnToTitle()
