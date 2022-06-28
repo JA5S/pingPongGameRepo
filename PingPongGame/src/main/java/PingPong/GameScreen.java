@@ -33,7 +33,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
     static int pongY = 0;
     private int pongXSpd = 2;
     private int pongYSpd = 0;
-    private int pongXDir = 1;
+    private int pongXDir = -1;
     private int pongYDir = 1;
     
     private int scoreOne;
@@ -114,7 +114,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
     private void drawPaddle(Graphics2D g2)
     {
         //change x,y to Transform variables
-        g2.fillRect(paddleX, paddleY, 20, 40);
+        g2.fillRect(paddleX, paddleY, 10, 40);
     }
     
     //Draws PingPong
@@ -181,7 +181,8 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
             }
             
             //bounce off paddle
-            if(pongX >= paddleX -75 && pongX <= paddleX + 20 -75 && pongY >= paddleY && pongY <= paddleY + 40)
+            if((pongX >= paddleX -75 && pongX <= paddleX + 10 -75 && pongY >= paddleY && pongY <= paddleY + 40)||
+                    (pongX >= paddleX - 10 + 75 && pongX <= paddleX + 75 && pongY >= paddleY && pongY <= paddleY + 40))
             {
                 pongXDir *= -1;
             }
@@ -202,7 +203,30 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
             //animate pong
             pongX -= pongXSpd * pongXDir;
             pongY -= pongYSpd * pongYDir;
+            
+            moveAI();
         }
+    }
+    
+    private void moveAI()
+    {
+        int paddleDir = 1;
+        int paddleSpd = 2;
+        
+        if(pongY > paddleY + 20)
+        {
+            paddleDir = 1;
+            paddleSpd = 2;
+        }
+        else if (pongY < paddleY)
+        {
+            paddleDir = -1;
+            paddleSpd = 2;
+        }
+        else
+            paddleSpd = 0;
+        
+        paddleY += paddleSpd * paddleDir;
     }
     
     @Override
