@@ -197,6 +197,18 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
             pongY -= pongYSpd * pongYDir;
         }
     }
+    public void paddlesBoundaryCheck(){
+                if(paddleY<=0)
+			paddleY= (int) TOP;
+		if(paddleY >= 0)
+			paddleY = (int) BOTTOM;
+		if(paddleX<=0)
+			paddleX=0;
+		if(paddleX >= (TOP))
+			paddleX= (int) TOP;
+		//give a player 1 point and creates new paddles & ball
+		
+    }
     
     @Override
     public void actionPerformed(ActionEvent evt) {
@@ -225,11 +237,15 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
                 main.switchScreen(ScreenEnum.PAUSE);
                 break;
             case KeyEvent.VK_UP:
+                //paddlesBoundaryCheck();
                 paddleY += 5;
+                paddlesBoundaryCheck();
                 System.out.println("Moved Paddle Up!");
                 break;
             case KeyEvent.VK_DOWN:
+                //paddlesBoundaryCheck();
                 paddleY -= 5;
+                paddlesBoundaryCheck();
                 System.out.println("Moved Paddle Down!");
                 break;
             default:

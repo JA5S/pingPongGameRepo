@@ -33,7 +33,7 @@ public class Paddle extends Rectangle{
     
     //updates the position of the paddle based on user activity
     private void update(){
-        
+         
         }
     
 
