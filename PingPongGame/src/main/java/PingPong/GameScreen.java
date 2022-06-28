@@ -133,6 +133,13 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
         g2.translate(-LEFT, -TOP);
     }
     
+    public void paddlesBoundaryCheck(){
+                if(paddleY >= TOP - 40)
+			paddleY = (int) TOP - 40;
+		if(paddleY <= BOTTOM)
+			paddleY = (int) BOTTOM;
+    }
+    
     // --------------------------- animation support ---------------------------
     /* You can call startAnimation() to run an animation.  A frame will be drawn every
      * 30 milliseconds. Call pauseAnimation() to stop animating.
