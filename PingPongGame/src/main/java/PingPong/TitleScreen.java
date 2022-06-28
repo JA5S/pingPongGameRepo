@@ -17,19 +17,18 @@ import javax.swing.*;
 
 public class TitleScreen extends JPanel{
     
-    private final JLabel title = new JLabel("Ping Pong");
+    private final JLabel title = new JLabel("Ping Pong", JLabel.CENTER);
     private final JButton startBtn = new JButton("Start Game");
     private final JButton setNumbPlayerBtn = new JButton("Set Number of Players");
     private final JButton exitBtn = new JButton("Exit Game");
-    private final Main main;
     
     TitleScreen(Main main)
     {
-        this.main = main;
         title.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-        this.add(title);
+        this.setLayout(new BorderLayout());
+        this.add(title, BorderLayout.NORTH);
             
-        this.add(startBtn);
+        this.add(startBtn, BorderLayout.CENTER);
         startBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e)
@@ -38,7 +37,7 @@ public class TitleScreen extends JPanel{
             }
         });
     
-        this.add(exitBtn);
+        this.add(exitBtn, BorderLayout.WEST);
         exitBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e)
@@ -47,7 +46,7 @@ public class TitleScreen extends JPanel{
             }
         });
         
-        this.add(setNumbPlayerBtn);  
+        this.add(setNumbPlayerBtn, BorderLayout.EAST);  
     } //end constructor
     
 } //end class
