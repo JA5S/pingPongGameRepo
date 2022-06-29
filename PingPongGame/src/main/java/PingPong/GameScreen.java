@@ -22,9 +22,9 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
     private final double RIGHT = 100;
     private final double BOTTOM = -100;
     private final double TOP = 100;
-
-    static int translateX = 0;
-    static int translateY = 0;
+    
+    private Paddle paddleOne, paddleTwo;
+    private boolean isMultiplayer = false;
 
     static int paddleX = -10;
     static int paddleY = -20;
@@ -37,6 +37,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
 
     private int scoreOne;
     private int scoreTwo;
+    private final int maxScore = 5;
 
     private final Main main;
 
@@ -44,6 +45,8 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
     public GameScreen(Main main) {
         this.main = main;
         enableKeys();
+        
+        paddleOne = new Paddle(-85, -20, 10, 40);
     }
 
     // Draws graphics for GameScreen class
@@ -72,9 +75,8 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         drawBoundaryLine(g2);
         g2.setTransform(savedTransform);
 
-        // Draw Paddle1
-        g2.translate(-75, 0);
-        drawPaddle(g2);
+        // Draw Paddle 1
+        paddleOne.drawPaddle(g2);
         g2.setTransform(savedTransform);
 
         // Draw Paddle2
@@ -110,15 +112,15 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
     // Draws paddle
     private void drawPaddle(Graphics2D g2) {
         //change x,y to Transform variables
-        g2.fillRect(paddleX, paddleY, 10, 40);
         g2.setColor(Color.red);
+        g2.fillRect(paddleX, paddleY, 10, 40);
     }
 
     //Draws PingPong
     private void drawPingPong(Graphics2D g2) {
         //change x,y to Transform variables
-        g2.fillOval(0, 0, 10, 15);
         g2.setColor(Color.white);
+        g2.fillOval(0, 0, 10, 15);
     }
 
     // Transforms window's dimensions to viewport
@@ -130,18 +132,6 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         g2.scale(width / (RIGHT - LEFT), height / (BOTTOM - TOP));
         g2.translate(-LEFT, -TOP);
     }
-
-    // Stops paddle from moving past top/bottom of screen
-    public void paddlesBoundaryCheck() {
-        if (paddleY >= TOP - 40) {
-            paddleY = (int) TOP - 40;
-            System.out.println("Paddle reached top of screen.");
-        }
-        if (paddleY <= BOTTOM) {
-            paddleY = (int) BOTTOM;
-            System.out.println("Paddle reached bottom of screen.");
-        }
-    } //end of method
 
     // --------------------------- Animation Support ---------------------------
     /* Call startAnimation()/pauseAnimation() to run/stop an animation.
@@ -195,6 +185,15 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
                 if (pongX <= LEFT + 5) {
                     scoreTwo++;
                 }
+                //check for game win
+                if(scoreOne == maxScore || scoreTwo == maxScore)
+                {
+                    scoreOne = 0;
+                    scoreTwo = 0;
+                    //reset pong and paddles
+                    main.switchScreen(ScreenEnum.WIN);
+                }
+                
                 //respawn pong
                 pongX = 0;
                 pongY = 0;
@@ -207,7 +206,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
 
             //AI paddle
             //check so only uses if single player mode
-            moveAI();
+            //moveAI();
         }
     }
 
@@ -247,20 +246,36 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         int key = evt.getKeyCode();
 
         switch (key) {
-            case KeyEvent.VK_P:
+            case KeyEvent.VK_P: // Pause
                 System.out.println("Pressed Pause Key!");
                 pauseAnimation();
                 main.switchScreen(ScreenEnum.PAUSE);
                 break;
-            case KeyEvent.VK_UP:
-                paddleY += 5;
-                paddlesBoundaryCheck();
-                System.out.println("Moved Paddle Up!");
+            case KeyEvent.VK_UP: // Paddle One
+                paddleOne.y += paddleOne.getSpeed();
+                paddlesBoundaryCheck(paddleOne);
+                System.out.println("Moved Paddle One Up!");
                 break;
             case KeyEvent.VK_DOWN:
-                paddleY -= 5;
-                paddlesBoundaryCheck();
-                System.out.println("Moved Paddle Down!");
+                paddleOne.y -= paddleOne.getSpeed();
+                paddlesBoundaryCheck(paddleOne);
+                System.out.println("Moved Paddle One Down!");
+                break;
+            case KeyEvent.VK_W: //Paddle Two
+                if(isMultiplayer)
+                {
+                   paddleTwo.y += paddleTwo.getSpeed();
+                    paddlesBoundaryCheck(paddleTwo);
+                    System.out.println("Moved Paddle Two Up!"); 
+                }
+                break;
+            case KeyEvent.VK_S:
+                if(isMultiplayer)
+                {
+                    paddleTwo.y -= paddleTwo.getSpeed();
+                    paddlesBoundaryCheck(paddleTwo);
+                    System.out.println("Moved Paddle Two Down!");
+                }
                 break;
             default:
                 break;
@@ -268,6 +283,18 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
 
         repaint();
     }
+    
+    // Stops paddle from moving past top/bottom of screen
+    public void paddlesBoundaryCheck(Paddle paddle) {
+        if (paddle.y >= TOP - paddle.height ) {
+            paddle.y = (int) TOP - paddle.height;
+            System.out.println("Paddle reached top of screen.");
+        }
+        if (paddle.y <= BOTTOM) {
+            paddle.y = (int) BOTTOM;
+            System.out.println("Paddle reached bottom of screen.");
+        }
+    } //end of method
 
     @Override
     public void keyReleased(KeyEvent evt) {

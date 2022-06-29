@@ -20,6 +20,8 @@ public class WinScreen extends JPanel{
     private final JLabel winStatus = new JLabel("Player 1 Won!");
     private final JButton restartGame = new JButton("Restart Game");
     private final JButton returnToTitle = new JButton("Return To Title");
+    private int scoreOne;
+    private int scoreTwo;
     private final Main main;
     
     WinScreen(Main main)
