@@ -16,6 +16,7 @@ import java.awt.*;
 public class Paddle extends Rectangle{
 
     private int left, right, top, bottom;
+    private int speed = 5;
     
     public Paddle(int x, int y, int width, int height) 
     {
@@ -31,10 +32,8 @@ public class Paddle extends Rectangle{
         g2.fillRect(x, y, width, height);
     }
     
-    //updates the position of the paddle based on user activity
-    private void update(){
-         
-        }
-    
-
+    public int getSpeed()
+    {
+        return speed;
+    }
 }
