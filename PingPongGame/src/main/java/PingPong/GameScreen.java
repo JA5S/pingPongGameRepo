@@ -115,6 +115,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
     {
         //change x,y to Transform variables
         g2.fillRect(paddleX, paddleY, 10, 40);
+        g2.setColor(Color.red);
     }
     
     //Draws PingPong
@@ -122,6 +123,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener{
     {
         //change x,y to Transform variables
         g2.fillOval(0, 0, 10, 15);
+        g2.setColor(Color.white);
     }
     
     // Transforms window's dimensions to viewport
