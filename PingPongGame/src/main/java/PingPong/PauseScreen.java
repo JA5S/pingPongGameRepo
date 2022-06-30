@@ -20,11 +20,9 @@ public class PauseScreen extends JPanel{
     private final JLabel pauseLabel = new JLabel("Game Paused");
     private final JButton resumeBtn = new JButton("Resume Game");
     private final JButton returnToTitleBtn = new JButton("Return To Title");
-    private final Main main;
     
     PauseScreen(Main main)
     {
-        this.main = main;
         pauseLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         this.add(pauseLabel);
         
@@ -33,7 +31,7 @@ public class PauseScreen extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                resumeGame();
+                main.resumeGame();
             }
         });
         
@@ -42,19 +40,9 @@ public class PauseScreen extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                returnToTitle();
+                main.switchScreen(ScreenEnum.TITLE);
             }
         });
         
-    }
-    
-    private void resumeGame()
-    {
-        main.startGame();
-    }
-    
-    private void returnToTitle()
-    {
-        main.switchScreen(ScreenEnum.TITLE);
     }
 }
