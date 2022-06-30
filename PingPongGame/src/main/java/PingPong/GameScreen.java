@@ -6,7 +6,7 @@
  * Asha Azariah-Kribbs
  * Project: PingPongGame
  * Date: June 16, 2022
- * Purpose: Game Screen panel and draws graphics
+ * Purpose: Game Screen panel and paints graphics
  */
 
 package PingPong;
@@ -46,7 +46,14 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         this.main = main;
         enableKeys();
         
-        paddleOne = new Paddle(-85, -20, 10, 40);
+        paddleOne = new Paddle(75, -20, 10, 40);
+        paddleTwo = new Paddle(-85, -20, 10, 40);
+    }
+    
+    // Setter
+    public void setIsMultiplayer(boolean isMulti)
+    {
+        isMultiplayer = isMulti;
     }
 
     // Draws graphics for GameScreen class
@@ -75,13 +82,10 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         drawBoundaryLine(g2);
         g2.setTransform(savedTransform);
 
-        // Draw Paddle 1
+        // Draw paddles
         paddleOne.drawPaddle(g2);
         g2.setTransform(savedTransform);
-
-        // Draw Paddle2
-        g2.translate(75, 0);
-        drawPaddle(g2);
+        paddleTwo.drawPaddle(g2);
         g2.setTransform(savedTransform);
 
         // Draw PingPong ball
@@ -107,13 +111,6 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
                 10.0f, dash, 0.0f);
         g2.setStroke(dashed);
         g2.drawLine(0, -95, 0, 100);
-    }
-
-    // Draws paddle
-    private void drawPaddle(Graphics2D g2) {
-        //change x,y to Transform variables
-        g2.setColor(Color.red);
-        g2.fillRect(paddleX, paddleY, 10, 40);
     }
 
     //Draws PingPong
@@ -172,7 +169,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
 
             //bounce off paddle
             if ((pongX >= paddleX - 75 && pongX <= paddleX + 10 - 75 && pongY >= paddleY && pongY <= paddleY + 40)
-                    || (pongX >= paddleX - 10 + 75 && pongX <= paddleX + 75 && pongY >= paddleY && pongY <= paddleY + 40)) {
+                    || (pongX >= paddleX + 75 && pongX <= paddleX + 10 + 75 && pongY >= paddleY && pongY <= paddleY + 40)) {
                 pongXDir *= -1;
                 //change pongYSpd so pong now moves at angle
             }
@@ -205,27 +202,24 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
             pongY -= pongYSpd * pongYDir;
 
             //AI paddle
-            //check so only uses if single player mode
-            //moveAI();
+            if(!isMultiplayer)
+                moveAI();
         }
     }
 
     //Sets animation for AI paddle
     private void moveAI() {
-        int paddleDir = 1;
-        int paddleSpd = 2;
-
-        if (pongY > paddleY + 20) {
-            paddleDir = 1;
-            paddleSpd = 2;
-        } else if (pongY < paddleY) {
-            paddleDir = -1;
-            paddleSpd = 2;
+        if (pongY > paddleTwo.y + paddleTwo.height/2) {
+            paddleTwo.setDirection(1);
+            paddleTwo.setSpeed(2);
+        } else if (pongY < paddleTwo.y) {
+            paddleTwo.setDirection(-1);
+            paddleTwo.setSpeed(2);
         } else {
-            paddleSpd = 0;
+            paddleTwo.setSpeed(0);
         }
 
-        paddleY += paddleSpd * paddleDir;
+        paddleTwo.y += paddleTwo.getSpeed() * paddleTwo.getDirection();
     }
 
     @Override

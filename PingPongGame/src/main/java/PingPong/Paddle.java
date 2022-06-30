@@ -14,10 +14,12 @@ package PingPong;
 import java.awt.*;
 
 public class Paddle extends Rectangle{
-
+    // Fields
     private int left, right, top, bottom;
     private int speed = 5;
+    private int direction = 1;
     
+    // Constructor
     public Paddle(int x, int y, int width, int height) 
     {
         super(x, y, width, height);
@@ -32,8 +34,25 @@ public class Paddle extends Rectangle{
         g2.fillRect(x, y, width, height);
     }
     
+    //Getter methods
     public int getSpeed()
     {
         return speed;
     }
-}
+    
+    public int getDirection()
+    {
+        return direction;
+    }
+    
+    //Setter methods
+    public void setSpeed(int spd)
+    {
+        speed = spd;
+    }
+    
+    public void setDirection(int dir)
+    {
+        direction = dir;
+    }
+} // End class

@@ -44,7 +44,21 @@ public class Main{
         window.setVisible(true);
     }
     
-    public void startGame()
+    //Game methods
+    public void startGame(boolean isMulti)
+    {
+        switchScreen(ScreenEnum.GAME);
+        gameScreen.setIsMultiplayer(isMulti);
+        gameScreen.startAnimation();
+    }
+    
+    public void restartGame()
+    {
+        switchScreen(ScreenEnum.GAME);
+        gameScreen.startAnimation();
+    }
+    
+    public void resumeGame()
     {
         switchScreen(ScreenEnum.GAME);
         gameScreen.startAnimation();
