@@ -23,17 +23,9 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
     private final double BOTTOM = -100;
     private final double TOP = 100;
     
+    private PingPong pong;
     private Paddle paddleOne, paddleTwo;
     private boolean isMultiplayer = false;
-
-    static int paddleX = -10;
-    static int paddleY = -20;
-    static int pongX = 0;
-    static int pongY = 0;
-    private int pongXSpd = 2;
-    private int pongYSpd = 0;
-    private int pongXDir = -1;
-    private int pongYDir = 1;
 
     private int scoreOne;
     private int scoreTwo;
@@ -46,8 +38,9 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         this.main = main;
         enableKeys();
         
-        paddleOne = new Paddle(75, -20, 10, 40);
-        paddleTwo = new Paddle(-85, -20, 10, 40);
+        paddleOne = new Paddle(75, -20, 10, 40, true);
+        paddleTwo = new Paddle(-85, -20, 10, 40, false);
+        pong = new PingPong(0, 0, 10, 15);
     }
     
     // Setter
@@ -82,15 +75,12 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         drawBoundaryLine(g2);
         g2.setTransform(savedTransform);
 
-        // Draw paddles
+        // Draw Paddles and PingPong
         paddleOne.drawPaddle(g2);
         g2.setTransform(savedTransform);
         paddleTwo.drawPaddle(g2);
         g2.setTransform(savedTransform);
-
-        // Draw PingPong ball
-        g2.translate(pongX, pongY);
-        drawPingPong(g2);
+        pong.drawPingPong(g2);
         g2.setTransform(savedTransform);
 
         // Draw Scores
@@ -113,13 +103,6 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         g2.drawLine(0, -95, 0, 100);
     }
 
-    //Draws PingPong
-    private void drawPingPong(Graphics2D g2) {
-        //change x,y to Transform variables
-        g2.setColor(Color.white);
-        g2.fillOval(0, 0, 10, 15);
-    }
-
     // Transforms window's dimensions to viewport
     private void windowToViewportTransformation(Graphics2D g2) {
         // Pixel width/height of drawing area
@@ -128,6 +111,16 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
 
         g2.scale(width / (RIGHT - LEFT), height / (BOTTOM - TOP));
         g2.translate(-LEFT, -TOP);
+    }
+    
+    // Resets game
+    public void resetGame()
+    {
+        pong.respawn();
+        paddleOne.reset();
+        paddleTwo.reset();
+        scoreOne = 0;
+        scoreTwo = 0;
     }
 
     // --------------------------- Animation Support ---------------------------
@@ -163,43 +156,39 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         //Animations
         if (frameNumber % 2 == 0) {
             //bounce off top/bottom
-            if (pongY >= TOP || pongY < BOTTOM) {
-                pongYDir *= -1;
+            if (pong.y + pong.height > TOP || pong.y <= BOTTOM) {
+                pong.setYDirection(pong.getYDirection() * -1);
+                if(pong.x <= 0 || pong.x >= 0)
+                {
+                   pong.setYSpeed(1); 
+                }
             }
 
             //bounce off paddle
-            if ((pongX >= paddleX - 75 && pongX <= paddleX + 10 - 75 && pongY >= paddleY && pongY <= paddleY + 40)
-                    || (pongX >= paddleX + 75 && pongX <= paddleX + 10 + 75 && pongY >= paddleY && pongY <= paddleY + 40)) {
-                pongXDir *= -1;
-                //change pongYSpd so pong now moves at angle
-            }
+            paddleOne.bouncePong(pong);
+            paddleTwo.bouncePong(pong);
 
             //scoring
-            if (pongX >= RIGHT - 5 || pongX <= LEFT) {
-                if (pongX >= RIGHT - 5) {
+            if (pong.x >= RIGHT - pong.width/2 || pong.x <= LEFT) {
+                if (pong.x >= RIGHT - pong.width/2) {
                     scoreOne++;
                 }
-                if (pongX <= LEFT + 5) {
+                if (pong.x <= LEFT + pong.width/2) {
                     scoreTwo++;
                 }
                 //check for game win
                 if(scoreOne == maxScore || scoreTwo == maxScore)
-                {
-                    scoreOne = 0;
-                    scoreTwo = 0;
-                    //reset pong and paddles
+                {                   
+                    //need to pass scores to winScreen
                     main.switchScreen(ScreenEnum.WIN);
                 }
                 
                 //respawn pong
-                pongX = 0;
-                pongY = 0;
-                pongXDir *= -1;
+                pong.respawn();
             }
 
             //animate pong
-            pongX -= pongXSpd * pongXDir;
-            pongY -= pongYSpd * pongYDir;
+            pong.update();
 
             //AI paddle
             if(!isMultiplayer)
@@ -209,10 +198,10 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
 
     //Sets animation for AI paddle
     private void moveAI() {
-        if (pongY > paddleTwo.y + paddleTwo.height/2) {
+        if (pong.y > paddleTwo.y + paddleTwo.height/2) {
             paddleTwo.setDirection(1);
             paddleTwo.setSpeed(2);
-        } else if (pongY < paddleTwo.y) {
+        } else if (pong.y < paddleTwo.y) {
             paddleTwo.setDirection(-1);
             paddleTwo.setSpeed(2);
         } else {
@@ -220,6 +209,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         }
 
         paddleTwo.y += paddleTwo.getSpeed() * paddleTwo.getDirection();
+        paddleTwo.update();
     }
 
     @Override
@@ -248,18 +238,21 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
             case KeyEvent.VK_UP: // Paddle One
                 paddleOne.y += paddleOne.getSpeed();
                 paddlesBoundaryCheck(paddleOne);
+                paddleOne.update();
                 System.out.println("Moved Paddle One Up!");
                 break;
             case KeyEvent.VK_DOWN:
                 paddleOne.y -= paddleOne.getSpeed();
                 paddlesBoundaryCheck(paddleOne);
+                paddleOne.update();
                 System.out.println("Moved Paddle One Down!");
                 break;
             case KeyEvent.VK_W: //Paddle Two
                 if(isMultiplayer)
                 {
-                   paddleTwo.y += paddleTwo.getSpeed();
+                    paddleTwo.y += paddleTwo.getSpeed();
                     paddlesBoundaryCheck(paddleTwo);
+                    paddleTwo.update();
                     System.out.println("Moved Paddle Two Up!"); 
                 }
                 break;
@@ -268,6 +261,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
                 {
                     paddleTwo.y -= paddleTwo.getSpeed();
                     paddlesBoundaryCheck(paddleTwo);
+                    paddleTwo.update();
                     System.out.println("Moved Paddle Two Down!");
                 }
                 break;

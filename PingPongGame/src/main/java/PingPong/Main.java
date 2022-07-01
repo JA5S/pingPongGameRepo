@@ -54,6 +54,7 @@ public class Main{
     
     public void restartGame()
     {
+        gameScreen.resetGame();
         switchScreen(ScreenEnum.GAME);
         gameScreen.startAnimation();
     }
