@@ -47,8 +47,9 @@ public class Main{
     //Game methods
     public void startGame(boolean isMulti)
     {
-        switchScreen(ScreenEnum.GAME);
         gameScreen.setIsMultiplayer(isMulti);
+        gameScreen.resetGame();
+        switchScreen(ScreenEnum.GAME);
         gameScreen.startAnimation();
     }
     
@@ -63,6 +64,12 @@ public class Main{
     {
         switchScreen(ScreenEnum.GAME);
         gameScreen.startAnimation();
+    }
+    
+    public void finishGame(int scoreOne, int scoreTwo)
+    {
+        winScreen.setScores(scoreOne, scoreTwo);
+        switchScreen(ScreenEnum.WIN);
     }
     
     public void switchScreen(ScreenEnum panelEnum)

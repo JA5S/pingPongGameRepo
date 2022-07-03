@@ -23,10 +23,18 @@ public class PauseScreen extends JPanel{
     
     PauseScreen(Main main)
     {
-        pauseLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-        this.add(pauseLabel);
+        JPanel titlePanel =  new JPanel();
+        JPanel buttonPanel = new JPanel();
+        this.setLayout(new GridLayout(2, 1));
+        this.add(titlePanel);
+        this.add(buttonPanel);
         
-        this.add(resumeBtn);
+        pauseLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        titlePanel.add(pauseLabel);
+        
+        buttonPanel.add(resumeBtn);
+        buttonPanel.add(returnToTitleBtn);
+        
         resumeBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e)
@@ -35,7 +43,6 @@ public class PauseScreen extends JPanel{
             }
         });
         
-        this.add(returnToTitleBtn);
         returnToTitleBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e)
@@ -43,6 +50,6 @@ public class PauseScreen extends JPanel{
                 main.switchScreen(ScreenEnum.TITLE);
             }
         });
-        
-    }
-}
+    }// End Constructor
+    
+} // End Class

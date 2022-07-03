@@ -23,8 +23,8 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
     private final double BOTTOM = -100;
     private final double TOP = 100;
     
-    private PingPong pong;
-    private Paddle paddleOne, paddleTwo;
+    private final PingPong pong;
+    private final Paddle paddleOne, paddleTwo;
     private boolean isMultiplayer = false;
 
     private int scoreOne;
@@ -179,8 +179,8 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
                 //check for game win
                 if(scoreOne == maxScore || scoreTwo == maxScore)
                 {                   
-                    //need to pass scores to winScreen
-                    main.switchScreen(ScreenEnum.WIN);
+                    //pass scores to winScreen
+                    main.finishGame(scoreOne, scoreTwo);
                 }
                 
                 //respawn pong
@@ -239,13 +239,11 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
                 paddleOne.y += paddleOne.getSpeed();
                 paddlesBoundaryCheck(paddleOne);
                 paddleOne.update();
-                System.out.println("Moved Paddle One Up!");
                 break;
             case KeyEvent.VK_DOWN:
                 paddleOne.y -= paddleOne.getSpeed();
                 paddlesBoundaryCheck(paddleOne);
                 paddleOne.update();
-                System.out.println("Moved Paddle One Down!");
                 break;
             case KeyEvent.VK_W: //Paddle Two
                 if(isMultiplayer)
@@ -253,7 +251,6 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
                     paddleTwo.y += paddleTwo.getSpeed();
                     paddlesBoundaryCheck(paddleTwo);
                     paddleTwo.update();
-                    System.out.println("Moved Paddle Two Up!"); 
                 }
                 break;
             case KeyEvent.VK_S:
@@ -262,7 +259,6 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
                     paddleTwo.y -= paddleTwo.getSpeed();
                     paddlesBoundaryCheck(paddleTwo);
                     paddleTwo.update();
-                    System.out.println("Moved Paddle Two Down!");
                 }
                 break;
             default:
