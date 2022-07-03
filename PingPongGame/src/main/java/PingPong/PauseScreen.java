@@ -6,7 +6,8 @@
  * Asha Azariah-Kribbs
  * Project: PingPongGame
  * Date: June 16, 2022
- * Purpose: Pause Screen
+ * Purpose: Pause Screen GUI 
+ * to pause and resume game
  */
 
 package PingPong;

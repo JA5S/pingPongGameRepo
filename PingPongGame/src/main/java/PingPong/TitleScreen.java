@@ -6,7 +6,8 @@
  * Asha Azariah-Kribbs
  * Project: PingPongGame
  * Date: June 16, 2022
- * Purpose: Title Screen
+ * Purpose: Title Screen GUI for 
+ * starting game and multiplayer option
  */
 
 package PingPong;
