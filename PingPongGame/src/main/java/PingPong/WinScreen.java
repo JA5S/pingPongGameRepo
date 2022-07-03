@@ -6,7 +6,8 @@
  * Asha Azariah-Kribbs
  * Project: PingPongGame
  * Date: June 16, 2022
- * Purpose: Win/Lose Screen
+ * Purpose: Win Screen GUI for displaying 
+ * scores and GUI navigation buttons
  */
 
 package PingPong;
@@ -27,6 +28,7 @@ public class WinScreen extends JPanel{
     private final JPanel titlePanel =  new JPanel();
     private final JPanel scorePanel =  new JPanel();
     private final JPanel buttonPanel = new JPanel();
+    private final int maxScore = 5;
     
     WinScreen(Main main)
     {
@@ -68,7 +70,7 @@ public class WinScreen extends JPanel{
         scorePanel.add(scoreTwoLbl);
         scorePanel.add(scoreOneLbl);
         
-        if(scoreOne == 5)
+        if(scoreOne == maxScore)
             winStatus.setText("Player 1 Won!");
         else
             winStatus.setText("Player 2 Won!");

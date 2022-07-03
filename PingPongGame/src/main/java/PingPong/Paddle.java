@@ -6,7 +6,8 @@
  * Asha Azariah-Kribbs
  * Project: PingPongGame
  * Date: June 16, 2022
- * Purpose: Main program
+ * Purpose: Paddle object for 
+ * drawing and updating paddles
  */
 
 package PingPong;

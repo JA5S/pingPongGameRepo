@@ -6,7 +6,8 @@
  * Asha Azariah-Kribbs
  * Project: PingPongGame
  * Date: June 18, 2022
- * Purpose: Main program
+ * Purpose: Main class for 
+ * managing GUI screens
  */
 
 package PingPong;

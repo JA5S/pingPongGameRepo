@@ -88,8 +88,8 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
         g2.scale(-1, 1);
         g2.rotate(180 * Math.PI / -180);
         g2.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
-        g2.drawString(String.valueOf(scoreOne), -40, 0); //Score 1
-        g2.drawString(String.valueOf(scoreTwo), 40, 0); //Score 2
+        g2.drawString(String.valueOf(scoreOne), 40, 0); //Score 1
+        g2.drawString(String.valueOf(scoreTwo), -40, 0); //Score 2
 
     }//end method
 
@@ -171,10 +171,10 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
             //scoring
             if (pong.x >= RIGHT - pong.width/2 || pong.x <= LEFT) {
                 if (pong.x >= RIGHT - pong.width/2) {
-                    scoreOne++;
+                    scoreTwo++;
                 }
                 if (pong.x <= LEFT + pong.width/2) {
-                    scoreTwo++;
+                    scoreOne++;
                 }
                 //check for game win
                 if(scoreOne == maxScore || scoreTwo == maxScore)
