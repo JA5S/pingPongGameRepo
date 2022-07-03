@@ -17,44 +17,63 @@ import javax.swing.*;
 
 public class WinScreen extends JPanel{
 
-    private final JLabel winStatus = new JLabel("Player 1 Won!");
+    private final JLabel winStatus = new JLabel();
+    private final JLabel scoreOneLbl = new JLabel();
+    private final JLabel scoreTwoLbl = new JLabel();
     private final JButton restartGame = new JButton("Restart Game");
     private final JButton returnToTitle = new JButton("Return To Title");
-    private int scoreOne;
-    private int scoreTwo;
-    private final Main main;
+    private Font titleFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
+    private Font scoreFont = new Font(Font.SANS_SERIF, Font.PLAIN, 30);
+    private final JPanel titlePanel =  new JPanel();
+    private final JPanel scorePanel =  new JPanel();
+    private final JPanel buttonPanel = new JPanel();
     
     WinScreen(Main main)
     {
-        this.main = main;
-        winStatus.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-        this.add(winStatus);
-        this.add(restartGame);
-        this.add(returnToTitle);
+        this.setLayout(new GridLayout(3, 1));
+        this.add(titlePanel);
+        this.add(scorePanel);
+        this.add(buttonPanel);
+        
+        winStatus.setFont(titleFont);  
+        scoreTwoLbl.setFont(scoreFont);
+        scoreOneLbl.setFont(scoreFont);
+        scorePanel.setLayout(new FlowLayout(
+                    FlowLayout.CENTER, 100, 5));
+        
+        buttonPanel.add(restartGame);
+        buttonPanel.add(returnToTitle);
         
         restartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                restartGame();
+                main.restartGame();
             }
         });
         returnToTitle.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                returnToTitle();
+                main.switchScreen(ScreenEnum.TITLE);
             }
         });
        
-    }
-     private void restartGame()
+    } //End Constructor
+    
+    public void setScores(int scoreOne, int scoreTwo)
     {
-        main.switchScreen(ScreenEnum.GAME);
+        scoreOneLbl.setText(String.valueOf(scoreOne));
+        scoreTwoLbl.setText(String.valueOf(scoreTwo));
+        scorePanel.add(scoreTwoLbl);
+        scorePanel.add(scoreOneLbl);
+        
+        if(scoreOne == 5)
+            winStatus.setText("Player 1 Won!");
+        else
+            winStatus.setText("Player 2 Won!");
+        
+        titlePanel.add(winStatus);
     }
-     
-     private void returnToTitle()
-    {
-        main.switchScreen(ScreenEnum.TITLE);
-    }
-}
+
+} // End Class
