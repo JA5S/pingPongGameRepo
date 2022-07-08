@@ -180,6 +180,7 @@ public class GameScreen extends JPanel implements KeyListener, ActionListener {
                 if(scoreOne == maxScore || scoreTwo == maxScore)
                 {                   
                     //pass scores to winScreen
+                    pauseAnimation();
                     main.finishGame(scoreOne, scoreTwo);
                 }
                 
