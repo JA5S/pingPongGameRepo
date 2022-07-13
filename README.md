@@ -2,18 +2,14 @@
 ### A Pong video game created with Java <!--Introduction the project's aim-->
 ## Table of Contents
 * [General info](#general-info)
-* [Technologies](#technologies)
 * [Setup](#setup)
 * [Controls](#controls)
 ## General info
-This project is.
-	
-## Technologies
-Project is created with:
-* JDK 
+This project is a team student project to develop a pong clone in Java.
+Team members consist of: Jonah Shuman, Asha Azariah-Kribbs, and Zeleke Werssa.
 	
 ## Setup
-To run this project, 
+To run this project, download the exectuable jar file and run the app.
 
 <Scope of functionalities> 
 <Examples of use>
